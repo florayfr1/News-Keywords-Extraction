@@ -3,6 +3,8 @@ from newsapi import NewsApiClient
 import pickle
 import pandas as pd
 from collections import Counter
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 nlp_eng = en_core_web_lg.load()
 '''newsapi = NewsApiClient (api_key='ed4040f2edd548c69f7fb38097dae103')
@@ -60,4 +62,14 @@ for content in df.content.values:
     keywords.append([('#' + x[0]) for x in Counter(get_keywords_eng(content)).most_common(5)])
 df['keywords'] = keywords
 
-df.to_csv("result.csv")
+#df.to_csv("result.csv")
+
+filename_result = "articlesCOVID_keyword.pckl"
+#save_net(df,filename_result)
+
+text = str(keywords)
+wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(text)
+plt.figure()
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
